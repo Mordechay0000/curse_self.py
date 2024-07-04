@@ -1,4 +1,4 @@
-a = input("Please enter a string: ").lower().replace(' ', '')
+a = input("Insert the temperature you would like to convert: ").lower().replace(' ', '')
 if a[len(a) - 1] == 'c':
     c = float(a[:len(a) - 1])
     print((c * 1.8) + 32)
