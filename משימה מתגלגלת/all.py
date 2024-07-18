@@ -11,61 +11,62 @@ Welcome to the game Hangman
                       __/ |
                      |___/
 """
-MAX_TRIES = 6
 
-one = """
-    x-------x
-"""
-two = """
+HANGMAN_PHOTOS = {'0': """x-------x""",
+                  '1': """
     x-------x
     |
     |
     |
     |
     |
-"""
-twee = """
+""",
+                  '2': """
     x-------x
     |       |
     |       0
     |
     |
     |
-"""
-four = """
+""",
+                  '3': """
     x-------x
     |       |
     |       0
     |       |
     |
     |
-"""
-five = """
+""",
+                  '4': """
     x-------x
     |       |
     |       0
     |      /|\\
     |
     |
-    """
-six = """
+    """,
+                  '5': """
     x-------x
     |       |
     |       0
     |      /|\\
     |      /
     |
-"""
-seven = """
+""",
+                  '6': """
      x-------x
     |       |
     |       0
     |      /|\\
     |      / \\
     |
-"""
+"""}
+
+MAX_TRIES = 6
 
 
+def print_hangman(num_of_tries):
+    print(HANGMAN_PHOTOS[str(num_of_tries)])
 
 
 def is_valid_input(letter_guessed):
@@ -89,13 +90,35 @@ def try_update_letter_guessed(letter_guessed, old_letters_guessed: list):
         print(' -> '.join(sorted(old_letters_guessed)))
         return False
 
-old_letters = ['a', 'p', 'c', 'f']
-print(try_update_letter_guessed('A', old_letters))
-print(try_update_letter_guessed('s', old_letters))
-print(old_letters)
-print(try_update_letter_guessed('$', old_letters))
-print(try_update_letter_guessed('d', old_letters))
-print(old_letters)
+
+def show_hidden_word(secret_word, old_letters_guessed):
+    display_word = ''
+    for letter in secret_word:
+        if letter in old_letters_guessed:
+            display_word += (letter + ' ')
+        else:
+            display_word += ('_ ')
+    return display_word.rstrip()
+
+
+def check_win(secret_word, old_letters_guessed):
+    for letter in secret_word:
+        if letter not in old_letters_guessed:
+            return False
+    return True
+
+def choose_word(file_path, index):
+    index -= 1
+    file = open(file_path, 'r')
+    word_list = file.read().split(' ')
+    file.close()
+    num = len(list(set(word_list)))
+    while index >= len(word_list):
+        index -= len(word_list)
+    return num, word_list[index]
+
+print(choose_word('test_file.txt', 14))
+
 
 """
 try_char = input("Guess a letter: ").lower()
